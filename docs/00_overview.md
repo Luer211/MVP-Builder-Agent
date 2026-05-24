@@ -46,7 +46,7 @@ MVP Builder Agent 要解决的是：在写代码前，先把最小但关键的�
 - 数据校验：Pydantic
 - 文档渲染：Markdown 模板或轻量字符串模板
 - 持久化：第一版使用本地文件系统，不引入业务数据库
-- 本地运行：uv 或 pip + FastAPI dev server
+- 本地运行：uv + FastAPI dev server
 
 ## Output Summary
 

@@ -13,7 +13,7 @@
 第一版持久化方式：
 
 - 生成结果写入本地文件系统，统一写到该项目的 test_docs/ 文件夹下面。
-- 可选写出 `manifest.json` 记录 run 元数据。
+- 写出 `manifest.json` 记录 run 元数据。
 - 运行时 state 使用 Pydantic model 或 TypedDict 承载。
 
 ## Core Data Structures

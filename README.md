@@ -122,6 +122,71 @@ Idea Intake
 
 checker 节点、HITL 节点、自动回退和更复杂的质量校验会放到后续迭代。第一版先把“输入想法 -> 稳定生成 docs”这件事做好。
 
+## 当前项目骨架
+
+当前仓库已经按设计文档落出第一版后端骨架：
+
+```text
+app/
+├── main.py                 # FastAPI app 初始化、健康检查、错误处理
+├── api/routes.py           # /api/v1/doc-runs 路由
+├── core/                   # 配置、日志、LLM client 抽象、错误类型
+├── schemas/                # 请求、响应、state、文档清单 schema
+├── workflow/               # LangGraph 直线 workflow 和 12 个文档节点
+├── rendering/markdown.py   # 集中 Markdown 渲染
+├── services/generate_docs.py
+└── storage/filesystem.py   # 本地文件写入和 manifest 读取
+```
+
+第一版生成逻辑先使用本地确定性实现，核心边界已经留好：后续可以把 `app/core/llm.py` 和 `app/workflow/nodes.py` 替换为真实模型调用，但 API、state、渲染和存储边界不需要重写。
+
+默认输出根目录是 `test_docs/`；请求中传入 `output_dir` 时会写入指定目录。
+
+## 本地运行
+
+推荐使用 uv：
+
+```bash
+uv sync --extra dev
+uv run uvicorn app.main:app --reload
+```
+
+如果当前 Python 环境已经装好依赖，也可以直接运行：
+
+```bash
+python -m uvicorn app.main:app --reload
+```
+
+健康检查：
+
+```bash
+curl http://127.0.0.1:8000/health
+```
+
+生成一次文档：
+
+```bash
+curl -X POST http://127.0.0.1:8000/api/v1/doc-runs \
+  -H "Content-Type: application/json" \
+  -d '{
+    "idea": "我想使用 Go 语言做一个课程签到后端系统，学生扫码签到，老师可以查看统计。",
+    "preferred_tech_stack": {
+      "backend_language": "Go",
+      "framework": "Gin",
+      "database": "MySQL"
+    },
+    "output_dir": "test_docs/course-checkin",
+    "overwrite": true
+  }'
+```
+
+基础校验：
+
+```bash
+python -m compileall app tests
+python -m pytest
+```
+
 ## 文档入口
 
 可以从这些文档开始看：

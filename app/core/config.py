@@ -1,0 +1,31 @@
+from __future__ import annotations
+
+from functools import lru_cache
+import os
+from pathlib import Path
+from typing import Optional
+
+from pydantic import BaseModel, ConfigDict, Field
+
+
+class Settings(BaseModel):
+    app_name: str = Field(default="MVP Builder Agent", alias="APP_NAME")
+    env: str = Field(default="local", alias="ENV")
+    output_root: Path = Field(default=Path("test_docs"), alias="OUTPUT_ROOT")
+    openai_api_key: Optional[str] = Field(default=None, alias="OPENAI_API_KEY")
+    model_name: str = Field(default="local-deterministic", alias="MODEL_NAME")
+    request_timeout_seconds: int = Field(default=120, alias="REQUEST_TIMEOUT_SECONDS")
+
+    model_config = ConfigDict(extra="ignore", populate_by_name=True)
+
+
+@lru_cache
+def get_settings() -> Settings:
+    return Settings(
+        app_name=os.getenv("APP_NAME", "MVP Builder Agent"),
+        env=os.getenv("ENV", "local"),
+        output_root=Path(os.getenv("OUTPUT_ROOT", "test_docs")),
+        openai_api_key=os.getenv("OPENAI_API_KEY"),
+        model_name=os.getenv("MODEL_NAME", "local-deterministic"),
+        request_timeout_seconds=int(os.getenv("REQUEST_TIMEOUT_SECONDS", "120")),
+    )
