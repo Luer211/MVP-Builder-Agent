@@ -5,6 +5,7 @@ from typing import Protocol
 from app.schemas.documents import DOCUMENT_SPECS
 from app.schemas.state import MVPilotState
 from app.workflow.nodes import build_document_node, idea_intake_node
+from langgraph.graph import StateGraph, END
 
 
 class Workflow(Protocol):
@@ -12,22 +13,7 @@ class Workflow(Protocol):
         """Run the workflow and return the updated state."""
 
 
-class SequentialWorkflow:
-    def __init__(self) -> None:
-        self._nodes = [idea_intake_node, *[build_document_node(spec) for spec in DOCUMENT_SPECS]]
-
-    def invoke(self, state: MVPilotState) -> MVPilotState:
-        current = dict(state)
-        for node in self._nodes:
-            current.update(node(current))
-        return current
-
-
 def build_workflow() -> Workflow:
-    try:
-        from langgraph.graph import END, StateGraph
-    except ImportError:
-        return SequentialWorkflow()
 
     graph = StateGraph(MVPilotState)
     graph.add_node("idea_intake", idea_intake_node)
