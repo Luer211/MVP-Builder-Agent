@@ -26,7 +26,7 @@ def get_settings() -> Settings:
         app_name=os.getenv("APP_NAME", "MVP Builder Agent"),
         env=os.getenv("ENV", "local"),
         output_root=Path(os.getenv("OUTPUT_ROOT", "test_docs")),
-        base_url=os.getenv("BASE_URL")
+        base_url=os.getenv("BASE_URL"),
         api_key=os.getenv("API_KEY"),
         model_name=os.getenv("MODEL_NAME", "local-deterministic"),
         request_timeout_seconds=int(os.getenv("REQUEST_TIMEOUT_SECONDS", "120")),
