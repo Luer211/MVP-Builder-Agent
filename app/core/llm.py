@@ -8,15 +8,23 @@ class LLMClient(Protocol):
         """Generate text for a prompt."""
 
 
-class LocalDeterministicLLM:
-    """Placeholder LLM client for the first skeleton.
-
-    The workflow is wired so this can be swapped for a real model client later.
-    """
+class OpenAILLM:
+    def __init__(self, base_url: str, api_key: str, model_name: str) -> None:
+        pass
 
     def generate(self, prompt: str) -> str:
-        return prompt
+        pass
+
+
+class DeepSeekLLM:
+    def __init__(self, base_url: str, api_key: str, model_name: str) -> None:
+        pass
+
+    def generate(self, prompt: str) -> str:
+        pass    
 
 
 def get_llm_client() -> LLMClient:
-    return LocalDeterministicLLM()
+    # return OpenAILLM(...)
+    # return DeepSeekLLM(...)
+    pass
