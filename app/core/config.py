@@ -14,10 +14,8 @@ class Settings(BaseModel):
     output_root: Path = Field(default=Path("test_docs"), alias="OUTPUT_ROOT")
     base_url: Optional[str] = Field(default=None, alias="BASE_URL")
     api_key: Optional[str] = Field(default=None, alias="API_KEY")
-    model_name: str = Field(default="local-deterministic", alias="MODEL_NAME")
+    model_name: str = Field(default=None, alias="MODEL_NAME")
     request_timeout_seconds: int = Field(default=120, alias="REQUEST_TIMEOUT_SECONDS")
-
-    model_config = ConfigDict(extra="ignore", populate_by_name=True)
 
 
 @lru_cache
@@ -28,6 +26,6 @@ def get_settings() -> Settings:
         output_root=Path(os.getenv("OUTPUT_ROOT", "test_docs")),
         base_url=os.getenv("BASE_URL"),
         api_key=os.getenv("API_KEY"),
-        model_name=os.getenv("MODEL_NAME", "local-deterministic"),
+        model_name=os.getenv("MODEL_NAME"),
         request_timeout_seconds=int(os.getenv("REQUEST_TIMEOUT_SECONDS", "120")),
     )

@@ -9,6 +9,7 @@ StageName = Literal["core_understanding", "modeling", "architecture", "planning"
 
 
 class DocumentSpec(BaseModel):
+    """单个文档的生成规格"""
     file_name: str
     title: str
     source_stage: StageName
@@ -17,11 +18,13 @@ class DocumentSpec(BaseModel):
 
 
 class MarkdownSection(BaseModel):
+    """Markdown文档中的一个章节：标题 + 正文"""
     heading: str
     body: list[str] = Field(default_factory=list)
 
 
 class DocumentStageOutput(BaseModel):
+    """一个文档生成阶段的结构化输出"""
     file_name: str
     title: str
     source_stage: StageName
@@ -31,12 +34,14 @@ class DocumentStageOutput(BaseModel):
 
 
 class GeneratedDocument(BaseModel):
+    """最终生成的文档"""
     file_name: str
     title: str
     content: str
     source_stage: StageName
 
 
+# 所有需要生成的文档规格表
 DOCUMENT_SPECS: tuple[DocumentSpec, ...] = (
     DocumentSpec(
         file_name="00_overview.md",
@@ -204,4 +209,7 @@ DOCUMENT_SPECS: tuple[DocumentSpec, ...] = (
     ),
 )
 
+# 索引常量
 DOCUMENT_FILE_NAMES: tuple[str, ...] = tuple(spec.file_name for spec in DOCUMENT_SPECS)
+DOCUMENT_SPECS_BY_FILE_NAME: dict[str, DocumentSpec] = {spec.file_name: spec for spec in DOCUMENT_SPECS}
+DOCUMENT_SPECS_BY_NODE_NAME: dict[str, DocumentSpec] = {spec.node_name: spec for spec in DOCUMENT_SPECS}
