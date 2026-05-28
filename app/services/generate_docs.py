@@ -16,6 +16,8 @@ from app.workflow.graph import Workflow, build_workflow
 
 
 class GenerateDocsService:
+    """文档生成服务类"""
+
     def __init__(self, settings: Settings, workflow: Workflow, storage: FileSystemRunStore) -> None:
         self.settings = settings
         self.workflow = workflow
@@ -91,6 +93,7 @@ _service: Optional[GenerateDocsService] = None
 
 
 def get_generate_docs_service() -> GenerateDocsService:
+    """FastAPI 依赖注入使用"""
     global _service
 
     if _service is None:
