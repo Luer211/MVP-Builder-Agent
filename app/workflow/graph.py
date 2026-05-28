@@ -12,7 +12,7 @@ from app.workflow.nodes import build_document_node, idea_intake_node
 
 class Workflow(Protocol):
     def invoke(self, state: MVPilotState) -> MVPilotState:
-        """Run the workflow and return the updated state."""
+        """运行 workflow 然后返回 MVPilotState"""
 
 
 def build_workflow(llm: LLMClient) -> Workflow: 
