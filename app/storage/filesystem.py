@@ -33,6 +33,7 @@ class FileSystemRunStore:
         overwrite: bool,
         created_at: datetime,
     ) -> RunManifest:
+        """真正写入文件夹，并创建写入一个 manifest.json"""
         if output_dir.exists() and not overwrite and any(output_dir.iterdir()):
             raise output_exists(str(output_dir))
 

@@ -21,6 +21,7 @@ def render_markdown(output: DocumentStageOutput) -> str:
 
 
 def render_documents(outputs: list[DocumentStageOutput]) -> list[GeneratedDocument]:
+    """把每个 DocumentStageOutput 转成 GeneratedDocument"""
     return [
         GeneratedDocument(
             file_name=output.file_name,

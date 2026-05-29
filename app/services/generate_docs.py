@@ -35,6 +35,7 @@ class GenerateDocsService:
             "user_input": user_input,
         }
 
+        # 执行工作流
         completed_state = self.workflow.invoke(initial_state)
         stage_outputs = self._collect_stage_outputs(completed_state)
         documents = render_documents(stage_outputs)
@@ -67,6 +68,7 @@ class GenerateDocsService:
         return self.storage.read_file(run_id, file_name)
 
     def _collect_stage_outputs(self, state: MVPilotState) -> list[DocumentStageOutput]:
+        """从 state 中收集出 12 个 DocumentStageOutput"""
         outputs_by_file: dict[str, DocumentStageOutput] = {}
 
         for stage_key in (
@@ -89,6 +91,7 @@ class GenerateDocsService:
         return f"run_{stamp}_{uuid4().hex[:8]}"
 
 
+# 单例懒加载
 _service: Optional[GenerateDocsService] = None
 
 
