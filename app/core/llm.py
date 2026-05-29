@@ -24,6 +24,7 @@ class DeepSeekLLM:
         pass    
 
 
+# Todo：app\services\generate_docs.py 调用的时候是 llm = get_llm_client(settings)
 def get_llm_client() -> LLMClient:
     # return OpenAILLM(...)
     # return DeepSeekLLM(...)

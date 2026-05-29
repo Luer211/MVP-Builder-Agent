@@ -35,7 +35,6 @@ class GenerateDocsService:
             "user_input": user_input,
         }
 
-        # 执行工作流
         completed_state = self.workflow.invoke(initial_state)
         stage_outputs = self._collect_stage_outputs(completed_state)
         documents = render_documents(stage_outputs)

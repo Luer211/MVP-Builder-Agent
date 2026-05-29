@@ -52,6 +52,8 @@ def build_document_node(
 
 
 def validate_output_matches_spec(output: DocumentStageOutput, spec: DocumentSpec) -> None:
+    """检验输出是否符合规范"""
+    
     if output.file_name != spec.file_name:
         raise ValueError(
             f"LLM output file_name mismatch: expected {spec.file_name}, got {output.file_name}."
