@@ -27,25 +27,25 @@ def build_document_prompt(*, state: MVPilotState, spec: DocumentSpec) -> str:
 
     return f"""You are an MVP product-engineering documentation node.
 
-Generate exactly one structured document for the target_document.
+    Generate exactly one structured document for the target_document.
 
-Input context:
-{_to_json(context)}
+    Input context:
+    {_to_json(context)}
 
-Hard rules:
-- Return strict JSON only.
-- Do not wrap the JSON in Markdown fences.
-- Do not output a Markdown document.
-- Do not add fields outside the required_output shape.
-- file_name, title, and source_stage must exactly match target_document.
-- sections must use exactly the target_document.section_headings.
-- sections must keep the same order as target_document.section_headings.
-- Every section body must be a non-empty list of Markdown-compatible strings.
-- Do not silently invent missing product facts.
-- If an assumption is necessary, include it in the assumptions list.
-- Use previous_outputs as context only; keep this document focused on its own title.
-- Keep section headings exactly as specified, but write section body content in the user's language when possible.
-"""
+    Hard rules:
+    - Return strict JSON only.
+    - Do not wrap the JSON in Markdown fences.
+    - Do not output a Markdown document.
+    - Do not add fields outside the required_output shape.
+    - file_name, title, and source_stage must exactly match target_document.
+    - sections must use exactly the target_document.section_headings.
+    - sections must keep the same order as target_document.section_headings.
+    - Every section body must be a non-empty list of Markdown-compatible strings.
+    - Do not silently invent missing product facts.
+    - If an assumption is necessary, include it in the assumptions list.
+    - Use previous_outputs as context only; keep this document focused on its own title.
+    - Keep section headings exactly as specified, but write section body content in the user's language when possible.
+    """
 
 
 def _user_input_payload(state: MVPilotState) -> dict[str, Any]:
