@@ -49,10 +49,12 @@ def build_document_prompt(*, state: MVPilotState, spec: DocumentSpec) -> str:
 
 
 def _user_input_payload(state: MVPilotState) -> dict[str, Any]:
+    """用户原始需求"""
     return state["user_input"].model_dump(mode="json", exclude_none=True)
 
 
 def _assumptions_payload(state: MVPilotState) -> list[dict[str, Any]]:
+    """全局假设"""
     return [
         assumption.model_dump(mode="json", exclude_none=True)
         for assumption in state.get("assumptions", [])
@@ -60,6 +62,8 @@ def _assumptions_payload(state: MVPilotState) -> list[dict[str, Any]]:
 
 
 def _previous_outputs_payload(state: MVPilotState) -> dict[str, dict[str, Any]]:
+    """前面已经生成的文档"""
+
     payload: dict[str, dict[str, Any]] = {}
 
     for stage_key in STAGE_STATE_KEYS:
@@ -76,6 +80,7 @@ def _previous_outputs_payload(state: MVPilotState) -> dict[str, dict[str, Any]]:
 
 
 def _required_output_shape(spec: DocumentSpec) -> dict[str, Any]:
+    """要求模型返回的 JSON 结构"""
     return {
         "file_name": spec.file_name,
         "title": spec.title,

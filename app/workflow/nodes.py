@@ -19,6 +19,8 @@ STAGE_KEY_BY_SOURCE_STAGE = {
 
 
 def idea_intake_node(state: MVPilotState) -> MVPilotState:
+    """初始化节点"""
+
     return {
         "assumptions": [],
         "core_understanding_stage": {},
@@ -35,9 +37,11 @@ def build_document_node(
     llm: LLMClient,
 ) -> Callable[[MVPilotState], MVPilotState]:
     def node(state: MVPilotState) -> MVPilotState:
+        # 构造 Prompt
         prompt = build_document_prompt(state=state, spec=spec)
         raw_output = llm.generate(prompt)
 
+        # JSON 转 Pydantic 模型
         output = DocumentStageOutput.model_validate_json(raw_output)
         validate_output_matches_spec(output, spec)
 
@@ -52,7 +56,7 @@ def build_document_node(
 
 
 def validate_output_matches_spec(output: DocumentStageOutput, spec: DocumentSpec) -> None:
-    """检验输出是否符合规范"""
+    """严格校验模型输出是否符合规范"""
     
     if output.file_name != spec.file_name:
         raise ValueError(
@@ -79,4 +83,5 @@ def validate_output_matches_spec(output: DocumentStageOutput, spec: DocumentSpec
 
 
 def stage_key_for(spec: DocumentSpec) -> str:
+    """确定该文档属于哪个阶段"""
     return STAGE_KEY_BY_SOURCE_STAGE[spec.source_stage]
